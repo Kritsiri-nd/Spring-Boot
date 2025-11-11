@@ -8,11 +8,11 @@ import lombok.*;
 @Data // รวม getter/setter/toString/equals/hashCode
 @NoArgsConstructor // Constructor ว่าง
 @AllArgsConstructor // Constructor ทุก field
-@Builder
+@Builder 
 public class Note {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Long id; 
   
   @Column(nullable = false)
   private String title;
