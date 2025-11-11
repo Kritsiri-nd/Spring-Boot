@@ -17,43 +17,34 @@ public class NoteController {
 
     private final NoteService noteService;
 
-    // GET /api/notes - ดึงโน้ตทั้งหมด
+    // ✅ GET /api/notes - ดึงโน้ตทั้งหมด
     @GetMapping
     public ResponseEntity<List<NoteResponse>> getAllNotes() {
         List<NoteResponse> notes = noteService.getAll();
         return ResponseEntity.ok(notes);
     }
 
-    // POST /api/notes - สร้างโน้ตใหม่
+    // ✅ POST /api/notes - สร้างโน้ตใหม่
     @PostMapping
     public ResponseEntity<NoteResponse> createNote(@Valid @RequestBody NoteRequest req) {
         NoteResponse created = noteService.create(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    // DELETE /api/notes/{id} - ลบโน้ตตาม ID
+    // ✅ DELETE /api/notes/{id} - ลบโน้ตตาม ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteNote(@PathVariable Long id) {
         noteService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    // PUT /api/notes/{id} - อัปเดตโน้ต
+    // ✅ PUT /api/notes/{id} - อัปเดตโน้ต
     @PutMapping("/{id}")
     public ResponseEntity<NoteResponse> updateNote(
             @PathVariable Long id,
             @Valid @RequestBody NoteRequest req) {
 
-        NoteResponse updated = noteService.update(id, toEntity(req));
+        NoteResponse updated = noteService.update(id, req);
         return ResponseEntity.ok(updated);
-    }
-
-    // helper method แปลง NoteRequest → Note (ใช้เฉพาะตอน update)
-    private com.techup.spring_demo.entity.Note toEntity(NoteRequest req) {
-        com.techup.spring_demo.entity.Note note = new com.techup.spring_demo.entity.Note();
-        note.setTitle(req.getTitle());
-        note.setContent(req.getContent());
-        note.setImageUrl(null);
-        return note;
     }
 }

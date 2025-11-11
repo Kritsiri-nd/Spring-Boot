@@ -44,12 +44,12 @@ public class NoteService {
     }
 
     // อัปเดตโน้ต
-    public NoteResponse update(Long id, Note updatedNote) {
+    public NoteResponse update(Long id, NoteRequest req) {
         return noteRepository.findById(id)
                 .map(note -> {
-                    note.setTitle(updatedNote.getTitle());
-                    note.setContent(updatedNote.getContent());
-                    note.setImageUrl(updatedNote.getImageUrl());
+                    note.setTitle(req.getTitle());
+                    note.setContent(req.getContent());
+                    note.setImageUrl(req.getImageUrl()); // ✅ ตอนนี้ไม่ null แล้ว
                     Note saved = noteRepository.save(note);
                     return toResponse(saved);
                 })
@@ -62,6 +62,7 @@ public class NoteService {
                 .id(note.getId())
                 .title(note.getTitle())
                 .content(note.getContent())
+                .imageUrl(note.getImageUrl())
                 .build();
     }
 }
